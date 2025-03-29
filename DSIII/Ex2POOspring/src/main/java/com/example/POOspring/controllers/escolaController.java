@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,5 +52,17 @@ public class escolaController {
     public professor inserirProfessor(@RequestBody @Valid professor professor){
         pessoas.add(professor);
         return professor;
+    }
+
+    @PutMapping("/atualizarAluno")
+    public String atualizarAluno(@RequestBody @Valid aluno alunoAtualizado) {
+        for (int i = 0; i < pessoas.size(); i++) {
+            if (pessoas.get(i) instanceof aluno && pessoas.get(i).getCpf().equals(alunoAtualizado.getCpf()) && pessoas.get(i).getIdade() >= 18) {
+                pessoas.set(i, alunoAtualizado);
+                return "Aluno atualizado com sucesso!";
+            }
+        }
+        return "Aluno não encontrado ou é menor de idade!";
+        
     }
 }
